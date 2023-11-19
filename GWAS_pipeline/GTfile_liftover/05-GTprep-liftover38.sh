@@ -34,9 +34,8 @@
 exome_file_dir="/Bulk/Exome sequences/Population level exome OQFE variants, PLINK format - final release/"
 #set this to the exome data field for your release
 data_field="ukb22418"
-data_file_dir="/data/gt_genrel_block"
-txt_file_dir="/gwas_cohort_textfiles"
-
+data_file_dir="/03.sex_stratified_BMI/gt_genrel_block/"
+txt_file_dir="/03.sex_stratified_BMI/"
 
 run_plink_qc="wget https://github.com/broadinstitute/picard/releases/download/2.27.4/picard.jar ;\
 wget https://raw.githubusercontent.com/broadinstitute/gatk/master/scripts/funcotator/data_sources/gnomAD/b37ToHg38.over.chain ;\
@@ -46,8 +45,6 @@ java -jar picard.jar LiftoverVcf -I ukb_gt_p_temp.vcf.gz -O ukb_gt_lo38.vcf \
    --RECOVER_SWAPPED_REF_ALT true --DISABLE_SORT true ;\
 bcftools sort -o ukb_gt_lo38_sort.vcf.gz -O z ukb_gt_lo38.vcf  "
 
-
-
 dx run swiss-army-knife -iin="${data_file_dir}/ukb_gt_p_temp.vcf.gz" \
    -icmd="${run_plink_qc}" --tag="Step1" --instance-type "mem2_ssd1_v2_x16"\
-   --destination="${project}:/data/gt_genrel_block/" --brief --yes
+   --destination="${project}:/${data_file_dir}" --brief --yes

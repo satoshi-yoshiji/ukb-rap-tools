@@ -29,18 +29,19 @@
 # Variables
 exome_file_dir="/Bulk/Exome sequences/Population level exome OQFE variants, PLINK format - final release/"
 #set this to the exome data field for your release
+project="UKB"
 data_field="ukb22418"
 # working dir and reference text file dir
-data_file_dir="/data/gt_genrel_block"
-txt_file_dir="/gwas_cohort_textfiles"
+data_file_dir="/03.sex_stratified_BMI/gt_genrel_block/"
+txt_file_dir="/03.sex_stratified_BMI/"
 
 run_plink_qc="plink2 --bfile ${data_field}_all_v2_merged\
- --maf 0.01 --mac 20 --geno 0.1 \
- --mind 0.1 --make-bed\
+ --maf 0.01 --mac 100 --geno 0.1 --hwe 1e-15 \
+ --make-bed\
  --out  ${data_field}_allQC_v2_merged"
 
 dx run swiss-army-knife -iin="${data_file_dir}/${data_field}_all_v2_merged.bed"\
    -iin="${data_file_dir}/${data_field}_all_v2_merged.bim" \
    -iin="${data_file_dir}/${data_field}_all_v2_merged.fam"\
    -icmd="${run_plink_qc}" --tag="Step1" --instance-type "mem1_ssd1_v2_x16"\
-   --destination="${project}:/data/gt_genrel_block/" --brief --yes
+   --destination="${project}:${data_file_dir}" --brief --yes

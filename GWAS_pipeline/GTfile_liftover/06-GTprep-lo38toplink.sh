@@ -39,10 +39,10 @@
 # Variables
 exome_file_dir="/Bulk/Exome sequences/Population level exome OQFE variants, PLINK format - final release/"
 #set this to the exome data field for your release
+project="UKB"
 data_field="ukb22418"
-data_file_dir="/data/gt_genrel_block"
-txt_file_dir="/gwas_cohort_textfiles"
-
+data_file_dir="/03.sex_stratified_BMI/gt_genrel_block/"
+txt_file_dir="/03.sex_stratified_BMI/"
 
 run_plink_qc="plink2 --vcf ukb_gt_lo38_sort.vcf.gz --make-bed --out ukb_gt_lo38_temp --id-delim "_" \
   --indiv-sort f ${data_field}_allQC_v2_mrg_prun_cohort.fam --ref-allele force ukb_gt_lo38_sort.vcf.gz 4 3 '#' \
@@ -57,6 +57,8 @@ plink2 --bfile ${data_field}_allQC_mrg_prnd_cohort_lo38_v2 --exclude remove_losn
 
 dx run swiss-army-knife -iin="${data_file_dir}/ukb_gt_lo38_sort.vcf.gz" \
    -iin="${data_file_dir}/${data_field}_allQC_v2_mrg_prun_cohort.fam"\
-   -iin="${txt_file_dir}/phenotypes.v08-04-22.txt" \
    -icmd="${run_plink_qc}" --tag="Step1" --instance-type "mem2_ssd1_v2_x16"\
-   --destination="${project}:/data/gt_genrel_block/" --brief --yes
+   --destination="${project}:${data_file_dir}" --brief --yes
+
+# deleted
+# -iin="${txt_file_dir}/phenotypes.v08-04-22.txt" \

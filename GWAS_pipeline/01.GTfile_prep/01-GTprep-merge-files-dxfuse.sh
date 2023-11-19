@@ -25,11 +25,11 @@
 
 # Variables
 # set this to the exome path and data field for your release
-exome_file_dir="/Bulk/Exome sequences/Population level exome OQFE variants, PLINK format - final release/"
-data_field="ukb23158"
+project="UKB"
+data_field="ukb22418"
 # working dir and reference text file dir
-data_file_dir="/data/gt_genrel_block/"
-txt_file_dir="/gwas_cohort_textfiles/"
+data_file_dir="/03.sex_stratified_BMI/gt_genrel_block/"
+txt_file_dir="/03.sex_stratified_BMI/"
 
 #cmd to run (use as input with `-icmd="{$run_merge}"`)
 
@@ -41,6 +41,6 @@ run_merge="cp /mnt/project/Bulk/Genotype\ Results/Genotype\ calls/ukb22418_c[1-9
         rm files_to_merge.txt;\
         rm ukb22418_c*"
 
-dx run swiss-army-knife -iin="${txt_file_dir}/phenotypes.v08-04-22.txt" \
+dx run swiss-army-knife -iin="${txt_file_dir}/GWAS_all_covariates_sex_stratified_BMI_participant.tsv" \
    -icmd="${run_merge}" --tag="Step1" --instance-type "mem1_ssd1_v2_x16"\
-   --destination="${project}:/data/gt_genrel_block/" --brief --yes 
+   --destination="${project}:/03.sex_stratified_BMI/" --brief --yes 

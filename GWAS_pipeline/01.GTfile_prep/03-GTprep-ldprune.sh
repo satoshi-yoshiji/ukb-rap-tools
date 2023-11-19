@@ -32,20 +32,21 @@
 # Variables
 exome_file_dir="/Bulk/Exome sequences/Population level exome OQFE variants, PLINK format - final release/"
 #set this to the exome data field for your release
+project="UKB"
 data_field="ukb22418"
-data_file_dir="/data/gt_genrel_block"
-txt_file_dir="/gwas_cohort_textfiles"
+data_file_dir="/03.sex_stratified_BMI/gt_genrel_block/"
+txt_file_dir="/03.sex_stratified_BMI/"
 
 run_plink_qc="plink2 --bfile ${data_field}_allQC_v2_merged \
- --indep-pairwise 1000 50 0.4  --out ukb-pruning ;\
+ --indep-pairwise 1000 100 0.8 --out ukb-pruning ;\
 ls *bed; \
 plink2 --bfile ${data_field}_allQC_v2_merged --extract ukb-pruning.prune.in \
- --keep phenotypes.v08-04-22.txt --make-bed --out ${data_field}_allQC_v2_mrg_prun_cohort ;\
+ --make-bed --out ${data_field}_allQC_v2_mrg_prun_cohort ;\
 wc *.bim "
 
 dx run swiss-army-knife -iin="${data_file_dir}/${data_field}_allQC_v2_merged.bed" \
    -iin="${data_file_dir}/${data_field}_allQC_v2_merged.bim" \
    -iin="${data_file_dir}/${data_field}_allQC_v2_merged.fam"\
-   -iin="${txt_file_dir}/phenotypes.v08-04-22.txt" \
+   -iin="${txt_file_dir}/GWAS_all_covariates_sex_stratified_BMI_participant.tsv" \
    -icmd="${run_plink_qc}" --tag="Step1" --instance-type "mem1_ssd1_v2_x16"\
-   --destination="${project}:/data/gt_genrel_block/" --brief --yes
+   --destination="${project}:${data_file_dir}" --brief --yes
